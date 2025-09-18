@@ -1,0 +1,16 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://root:example@localhost:27017}
+      database: ${MONGODB_DATABASE:wipa}
+      auto-index-creation: true
+
+server:
+  port: ${SERVER_PORT:8080}
+
+# Configuración de logging
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
+    com.todoapp: ${APP_LOG_LEVEL:DEBUG}
+    org.springframework.data.mongodb: ${MONGODB_LOG_LEVEL:INFO}
