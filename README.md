@@ -126,23 +126,24 @@ src/main/java/com/todoapp/
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://localhost:27017}
-      database: ${MONGODB_DATABASE:wipa}
+      uri: ${MONGODB_URI:mongodb://mongodb:27017/todoapp}
 ```
 
 #### Configuración de Variables de Entorno
 
-Para usar la base de datos remota, configura estas variables de entorno:
-
+Para desarrollo local (sin Docker):
 ```bash
-export MONGODB_URI=mongodb://root:example@localhost:27017
-export MONGODB_DATABASE=wipa
+export MONGODB_URI=mongodb://localhost:27017/todoapp
+```
+
+Para Docker (configurado automáticamente):
+```bash
+export MONGODB_URI=mongodb://mongodb:27017/todoapp
 ```
 
 O crea un archivo `.env` en la raíz del proyecto backend:
 ```env
-MONGODB_URI=mongodb://root:example@localhost:27017
-MONGODB_DATABASE=wipa
+MONGODB_URI=mongodb://localhost:27017/todoapp
 SERVER_PORT=8080
 LOG_LEVEL=INFO
 APP_LOG_LEVEL=DEBUG
@@ -150,8 +151,7 @@ MONGODB_LOG_LEVEL=INFO
 ```
 
 ### Variables de Entorno
-- `MONGODB_URI`: URI completa de MongoDB (default: mongodb://localhost:27017)
-- `MONGODB_DATABASE`: Nombre de la base de datos (default: wipa)
+- `MONGODB_URI`: URI completa de MongoDB (default: mongodb://mongodb:27017/todoapp)
 - `SERVER_PORT`: Puerto del servidor (default: 8080)
 - `LOG_LEVEL`: Nivel de logging global (default: INFO)
 - `APP_LOG_LEVEL`: Nivel de logging de la aplicación (default: DEBUG)
@@ -159,16 +159,42 @@ MONGODB_LOG_LEVEL=INFO
 
 ## Ejecución
 
+### 🐳 Con Docker (Recomendado)
+
+1. **Requisitos**:
+   - Docker
+   - Docker Compose
+
+2. **Comandos**:
+   ```bash
+   # Detener servicios existentes
+   docker-compose down
+   
+   # Levantar backend y MongoDB (modo detached)
+   docker-compose up --build -d
+   
+   # Ver logs en tiempo real
+   docker-compose logs -f
+   
+   # Ver estado de contenedores
+   docker-compose ps
+   ```
+
+3. **Verificación**:
+   - Swagger UI: `http://localhost:8080/swagger-ui.html`
+   - API Base URL: `http://localhost:8080/api/todos`
+
+### 💻 Sin Docker (Desarrollo Local)
+
 1. **Requisitos**:
    - Java 17+
-   - MongoDB
+   - MongoDB local
    - Maven
 
 2. **Comandos**:
    ```bash
    # Configurar variables de entorno
-   export MONGODB_URI=mongodb://root:example@localhost:27017
-   export MONGODB_DATABASE=wipa
+   export MONGODB_URI=mongodb://localhost:27017/todoapp
    
    # Compilar
    mvn clean install
@@ -179,7 +205,7 @@ MONGODB_LOG_LEVEL=INFO
 
    **Alternativa con variables inline:**
    ```bash
-   MONGODB_URI=mongodb://root:example@localhost:27017 MONGODB_DATABASE=wipa mvn spring-boot:run
+   MONGODB_URI=mongodb://localhost:27017/todoapp mvn spring-boot:run
    ```
 
 3. **Verificación**:

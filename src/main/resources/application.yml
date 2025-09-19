@@ -1,8 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: ${MONGODB_URI:mongodb://root:example@localhost:27017}
-      database: ${MONGODB_DATABASE:wipa}
+      uri: ${MONGODB_URI:mongodb://mongodb:27017/todoapp}
       auto-index-creation: true
 
 server:
